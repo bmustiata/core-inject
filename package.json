@@ -1,0 +1,38 @@
+{
+  "name": "core-inject",
+  "description": "A fast dependency injection engine. Supports custom scopes, modules a la guice, ES7 decorators injection with @inject, and TypeScript definitions.",
+  "author": {
+    "name": "Bogdan Mustiata",
+    "email": "bogdan.mustiata@gmail.com"
+  },
+  "version": "0.1.0",
+  "dependencies": {
+    "core-lang": "^1.0.1"
+  },
+  "devDependencies": {
+    "dts-generator": "1.5.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-typescript": "^0.7.0",
+    "mocha": "^2.3.0"
+  },
+  "keywords": [],
+  "main": "./lib/core-inject.js",
+  "bugs": {
+    "url": "https://github.com/bmustiata/core-inject/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/bmustiata/core-inject/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmustiata/core-inject.git"
+  },
+  "readme": "A fast dependency injection engine. Supports custom scopes, modules a la guice, ES7 decorators injection with @inject, and TypeScript definitions.",
+  "readmeFilename": "README.md",
+  "homepage": "http://blog.ciplogic.com"
+}
