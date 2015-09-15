@@ -1,6 +1,8 @@
+/// <reference path="../../../node_modules/grunt-typescript/node_modules/typescript/bin/lib.es6.d.ts"/>
 /// <reference path="../../../node_modules/core-lang/core-lang.d.ts"/>
+/// <reference path="../../../node_modules/core-promise/core-promise.d.ts"/>
 
-import { CorePromise as Promise } from "core-promise";
+import { DefaultPromise as Promise } from "core-promise";
 import { XCollection, XMap, XLinkedHashMap, XHashMap, list, XSet, XHashSet } from "core-lang";
 import { argumentNames, create as createObject } from "core-lang/lib/reflect";
 import { format } from "core-lang/lib/stringUtils";
@@ -29,7 +31,7 @@ class BeanBuilder<T> implements ObjectFactory<T> {
 		var clazz = this.beanDefinition.clazz;
 
 		return argumentNames(clazz).map(name => this.injector.getBean(name))
-			.asPromises()
+			.resolvePromises()
 			.then((argumentValues : XCollection<any>) => createObject(clazz, argumentValues));
 	}
 
@@ -37,7 +39,7 @@ class BeanBuilder<T> implements ObjectFactory<T> {
 		var builder = this.beanDefinition.builder;
 
 		return argumentNames(builder).map(name => this.injector.getBean(name))
-			.asPromises()
+			.resolvePromises()
 			.then(function (argumentValues : XCollection<any>) {
 				return builder.apply(this, argumentValues.asArray());
 			});
@@ -97,7 +99,7 @@ export class Injector {
 		* @returns {*}
 		*/
 	getBean<T>(name : string) : Promise<T> {
-		return promiseCode(() => {
+		return new Promise((resolve, reject) => {
 			var beanDefinition = this._knownBeans.get(name);
 
 			if (typeof beanDefinition === "undefined" && !this._parent) {
@@ -105,17 +107,18 @@ export class Injector {
 					this.getKnownBeans().join(", ")
 				));
 			} else if (typeof beanDefinition === "undefined") {
-				return this._parent.getBean(name);
+				resolve(this._parent.getBean(name));
+				return;
 			}
 
 			if (typeof beanDefinition.instance !== "undefined") {
-				return beanDefinition.instance;
+				resolve(beanDefinition.instance);
 			} else {
-				return this._findScope(beanDefinition.scope).get(
+				resolve(this._findScope(beanDefinition.scope).get(
 					beanDefinition.name,
 					new BeanBuilder(this, beanDefinition),
 					beanDefinition.scopeDestroy
-				);
+				));
 			}
 		});
 	}

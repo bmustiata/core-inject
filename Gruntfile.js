@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     // configuration for the plugins.
 
     // Project name:        core-inject
-    // Main ts module:      InjectorModule
+    // Main ts module:      Injector
     // Source folder:       src/main/ts
     // Tests source folder: src/test/ts
     // Output folder:       lib/
@@ -60,19 +60,10 @@ module.exports = function(grunt) {
                     name: "core-inject",
                     baseDir: ".",
                     out: "core-inject.d.ts",
-                    main: "core-inject/lib/InjectorModule",
+                    main: "core-inject/lib/Injector",
                     excludes: [
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.core.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.core.es6.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.dom.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.es6.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.scriptHost.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/lib.webworker.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/typescript.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/typescript_internal.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/typescriptServices.d.ts",
-                        "node_modules/dts-generator/node_modules/typescript/bin/typescriptServices_internal.d.ts"
+                        "node_modules/**/*.d.ts",
+                        "typings/**/*.d.ts"
                     ]
                 },
 
@@ -101,7 +92,7 @@ module.exports = function(grunt) {
     // load NPM tasks:
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-typescript");
-    grunt.loadNpmTasks("dts-generator");
+    grunt.loadNpmTasks("ciplogic-dts-generator");
     grunt.loadNpmTasks("grunt-mocha-test");
 
     grunt.registerTask("dist", ["clean:dist", "typescript:dist", "dtsGenerator:dist"]);

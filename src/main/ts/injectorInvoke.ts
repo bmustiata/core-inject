@@ -1,6 +1,6 @@
 import {Injector} from "./Injector";
 import {argumentNames, invoke} from "core-lang/lib/reflect"
-import {CorePromise as Promise} from "core-promise"
+import {DefaultPromise as Promise} from "core-promise"
 
 /**
 	* Invoke a function filling its parameters with values from the injector. In case
@@ -18,7 +18,7 @@ export function injectorCall(injector : Injector, fn : Function, ...params : any
 				return injector.getBean(name);
 			}
 		})
-	.asPromises()
+	.resolvePromises()
 	.then(parameters => invoke(fn, parameters));
 }
 
@@ -40,6 +40,6 @@ export function injectorInvoke(injector : Injector, thisObject : any, fn : Funct
 			return injector.getBean(name);
 		}
 	})
-	.asPromises()
+	.resolvePromises()
 	.then(parameters => fn.apply(thisObject, parameters.asArray()));
 }
